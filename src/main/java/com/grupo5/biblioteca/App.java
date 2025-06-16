@@ -10,7 +10,7 @@ import java.util.Scanner;
 
 /**
  *
- * @author diegocarvajalarias
+ * @author grupo5
  */
 public class App {
     public static void main(String[] args) {
