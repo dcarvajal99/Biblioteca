@@ -4,11 +4,26 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.io.BufferedWriter;
+import java.io.FileWriter;
+import java.io.File;
 
 public class UsuariosServicio {
 
+    private static final String ENCABEZADO = "nombre|apellido|email|telefono";
+
     public List<String[]> leerUsuariosCSV(String rutaArchivo) {
         List<String[]> datos = new ArrayList<>();
+        File archivo = new File(rutaArchivo);
+        if (!archivo.exists()) {
+            try (BufferedWriter writer = new BufferedWriter(new FileWriter(rutaArchivo))) {
+                writer.write(ENCABEZADO);
+                writer.newLine();
+            } catch (IOException e) {
+                System.err.println("Error al crear el archivo CSV: " + e.getMessage());
+            }
+            return datos;
+        }
         try (BufferedReader reader = new BufferedReader(new java.io.FileReader(rutaArchivo))) {
             String linea;
             while ((linea = reader.readLine()) != null) {
@@ -23,7 +38,18 @@ public class UsuariosServicio {
     }
 
     public void escribirUsuariosCSV(String rutaArchivo, List<String[]> datos) {
-        try (java.io.BufferedWriter writer = new java.io.BufferedWriter(new java.io.FileWriter(rutaArchivo))) {
+        File archivo = new File(rutaArchivo);
+        if (!archivo.exists()) {
+            try (BufferedWriter writer = new BufferedWriter(new FileWriter(rutaArchivo))) {
+                writer.write(ENCABEZADO);
+                writer.newLine();
+            } catch (IOException e) {
+                System.err.println("Error al crear el archivo CSV: " + e.getMessage());
+            }
+        }
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter(rutaArchivo))) {
+            writer.write(ENCABEZADO);
+            writer.newLine();
             for (String[] fila : datos) {
                 writer.write(String.join("|", fila));
                 writer.newLine();
