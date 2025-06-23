@@ -13,6 +13,9 @@ import java.util.Scanner;
  * @author grupo5
  */
 public class App {
+
+    private static final String DATA_DIR = "src/main/java/com/grupo5/biblioteca/data/";
+
     public static void main(String[] args) {
         Biblioteca biblioteca = new Biblioteca();
         Scanner scanner = new Scanner(System.in);
@@ -72,8 +75,8 @@ public class App {
                         System.out.println("Usuario registrado correctamente.");
                         break;
                     case 6:
-                        biblioteca.guardarLibrosEnCSV("src/main/java/com/grupo5/biblioteca/data/libros.csv");
-                        biblioteca.guardarUsuariosEnCSV("src/main/java/com/grupo5/biblioteca/data/usuarios.csv");
+                        biblioteca.guardarLibrosEnCSV(DATA_DIR+"libros.csv");
+                        biblioteca.guardarUsuariosEnCSV(DATA_DIR+"usuarios.csv");
                         System.out.println("Datos guardados. Saliendo...");
                         salir = true;
                         break;
