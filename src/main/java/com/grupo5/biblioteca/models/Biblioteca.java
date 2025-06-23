@@ -4,9 +4,8 @@ import com.grupo5.biblioteca.services.LibrosServicio;
 import com.grupo5.biblioteca.services.UsuariosServicio;
 import com.grupo5.biblioteca.exceptions.LibroNoEncontradoException;
 import com.grupo5.biblioteca.exceptions.LibroYaPrestadoException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
+
+import java.util.*;
 
 public class Biblioteca {
     private ArrayList<Libro> libros = new ArrayList<>();
@@ -15,12 +14,12 @@ public class Biblioteca {
     private UsuariosServicio usuariosServicio = new UsuariosServicio();
 
     public Biblioteca() {
-        cargarLibrosDesdeCSV("src/main/java/com/grupo5/biblioteca/data/libros.csv");
-        cargarUsuariosDesdeCSV("src/main/java/com/grupo5/biblioteca/data/usuarios.csv");
+        cargarLibrosDesdeCSV();
+        cargarUsuariosDesdeCSV();
     }
 
-    private void cargarLibrosDesdeCSV(String rutaArchivo) {
-        List<String[]> datos = librosServicio.leerLibrosCSV(rutaArchivo);
+    private void cargarLibrosDesdeCSV() {
+        List<String[]> datos = librosServicio.leerLibrosCSV("src/main/java/com/grupo5/biblioteca/data/libros.csv");
         boolean esPrimera = true;
         for (String[] fila : datos) {
             if (esPrimera) { esPrimera = false; continue; } // Saltar cabecera
@@ -40,8 +39,8 @@ public class Biblioteca {
         }
     }
 
-    private void cargarUsuariosDesdeCSV(String rutaArchivo) {
-        List<String[]> datos = usuariosServicio.leerUsuariosCSV(rutaArchivo);
+    private void cargarUsuariosDesdeCSV() {
+        List<String[]> datos = usuariosServicio.leerUsuariosCSV("src/main/java/com/grupo5/biblioteca/data/usuarios.csv");
         boolean esPrimera = true;
         for (String[] fila : datos) {
             if (esPrimera) { esPrimera = false; continue; } // Saltar cabecera
@@ -102,14 +101,22 @@ public class Biblioteca {
     }
 
     public void mostrarLibros() {
-        for (Libro libro : libros) {
+
+        TreeSet<Libro> librosOrdenados = new TreeSet<>(Comparator.comparing(Libro::getTitulo));
+        librosOrdenados.addAll(libros);
+        for (Libro libro : librosOrdenados) {
             System.out.println(libro);
         }
     }
 
     public void mostrarUsuarios() {
+
+        HashSet<String> emails = new HashSet<>();
         for (Usuario usuario : usuarios.values()) {
-            System.out.println(usuario);
+            if (!emails.contains(usuario.getEmail())) {
+                System.out.println(usuario);
+                emails.add(usuario.getEmail());
+            }
         }
     }
 }
