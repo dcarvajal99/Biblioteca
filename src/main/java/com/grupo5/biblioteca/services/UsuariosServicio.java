@@ -10,7 +10,7 @@ import java.io.File;
 
 public class UsuariosServicio {
 
-    private static final String ENCABEZADO = "nombre|apellido|email|telefono";
+    private static final String ENCABEZADO = "id|nombre|apellido|email|telefono";
 
     public List<String[]> leerUsuariosCSV(String rutaArchivo) {
         List<String[]> datos = new ArrayList<>();

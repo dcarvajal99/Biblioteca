@@ -27,7 +27,8 @@ public class App {
             System.out.println("3. Buscar libro");
             System.out.println("4. Prestar libro");
             System.out.println("5. Registrar usuario");
-            System.out.println("6. Guardar y salir");
+            System.out.println("7. Registrar libro");
+            System.out.println("8. Guardar y salir");
             System.out.print("Seleccione una opción: ");
             try {
                 int opcion = scanner.nextInt();
@@ -74,7 +75,20 @@ public class App {
                         biblioteca.registrarUsuario(usuario);
                         System.out.println("Usuario registrado correctamente.");
                         break;
-                    case 6:
+                    case 7:
+                        String tituloLibro, autorLibro, asignadoA;
+                        tituloLibro = pedirCampo(scanner, "Título");
+                        autorLibro = pedirCampo(scanner, "Autor");
+                        System.out.print("Asignado a (email, dejar vacío si disponible): ");
+                        asignadoA = scanner.nextLine().trim();
+                        if (!asignadoA.isEmpty() && biblioteca.getUsuarioPorEmail(asignadoA) == null) {
+                            System.out.println("Error: El email ingresado no corresponde a un usuario registrado. El libro se registrará como disponible.");
+                            asignadoA = "";
+                        }
+                        biblioteca.registrarLibro(tituloLibro, autorLibro, asignadoA);
+                        System.out.println("Libro registrado correctamente.");
+                        break;
+                    case 8:
                         biblioteca.guardarLibrosEnCSV(DATA_DIR+"libros.csv");
                         biblioteca.guardarUsuariosEnCSV(DATA_DIR+"usuarios.csv");
                         System.out.println("Datos guardados. Saliendo...");
@@ -85,7 +99,7 @@ public class App {
                 }
             } catch (InputMismatchException e) {
                 System.out.println("Error: Debe ingresar un número.");
-                scanner.nextLine(); // Limpiar buffer
+                scanner.nextLine();
             }
         }
         scanner.close();

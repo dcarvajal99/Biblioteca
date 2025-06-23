@@ -8,7 +8,7 @@ import java.io.File;
 
 public class LibrosServicio {
 
-    private static final String ENCABEZADO = "titulo|autor|estado|asignadoA";
+    private static final String ENCABEZADO = "id|titulo|autor|estado|asignadoA";
 
     public void escribirLibrosCSV(String rutaArchivo, java.util.List<String[]> datos) {
         File archivo = new File(rutaArchivo);
